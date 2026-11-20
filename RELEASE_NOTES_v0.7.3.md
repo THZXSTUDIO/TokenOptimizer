@@ -1,4 +1,4 @@
-# TokenOptimizer UNIVERSAL 0.7.3
+# TokenOptimizer 0.7.3
 
 **Release date:** 2026-11-20  
 **Release type:** Feature and coverage update  
@@ -16,6 +16,15 @@
 - Prioritizes lifecycle and safety evidence when those patterns are requested.
 - Expands the regression suite to 15 checks.
 
+## How the workflow works
+
+1. The agent turns the user's task into focused subsystem concepts and source-level terms while preserving the full request.
+2. The router validates the project root and discovers eligible paths and source/config content under fixed file-count, size, and line ceilings.
+3. A lexical ranking pass scores candidates using task-term coverage and directory diversity; it reports eligible, scanned, ranked, selected, and unranked counts separately.
+4. The slicer opens safe candidates allowed by `MaxFiles`, selects distinct relevance-weighted line ranges, and distributes a bounded output budget across matched files.
+5. The agent uses excerpts as navigational evidence, checks decisive source directly, and performs tests/verification independently.
+
+The matcher does not build an AST, import graph, call graph, or runtime trace. Reaching a file or line budget can leave relevant evidence out; preserve the report's omissions and coverage counters in the final analysis.
 ## Validation
 
 Latest Windows PowerShell 5.1 regression run:

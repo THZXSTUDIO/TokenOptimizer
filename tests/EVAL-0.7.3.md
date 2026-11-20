@@ -19,9 +19,9 @@ These tests validate deterministic script behavior on synthetic fixtures. They d
 Exact current-run terminal summaries:
 
 ```text
-TOKENOPTIMIZER UNIVERSAL 0.7.3 | ranked=19 seeds=19 unselected=0 eligibleUnranked=71 scanned=2096 dirs=50 eligible=90 contentFiles=90 sizeBudget=1387361 time=497ms truncated=False contentTruncated=False stages=load:234/scan:165/rank:45/plan:48
+TOKENOPTIMIZER 0.7.3 | ranked=19 seeds=19 unselected=0 eligibleUnranked=71 scanned=2096 dirs=50 eligible=90 contentFiles=90 sizeBudget=1387361 time=497ms truncated=False contentTruncated=False stages=load:234/scan:165/rank:45/plan:48
 
-TOKENOPTIMIZER SLICES UNIVERSAL 0.7.3 | candidates=19 opened=19 matched=19 lines=400 perFileBudget=8 time=5457ms
+TOKENOPTIMIZER SLICES 0.7.3 | candidates=19 opened=19 matched=19 lines=400 perFileBudget=8 time=5457ms
 ```
 
 Remote PowerShell process runtime: **7.74 s**.

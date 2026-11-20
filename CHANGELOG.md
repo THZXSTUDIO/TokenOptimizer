@@ -1,7 +1,7 @@
 # Changelog
 
 ## 0.7.3 — CONTENT DISCOVERY + COVERAGE-AWARE EXTRACTION (2026-11-20)
-- Extended universal routing from path/name metadata to bounded lexical content discovery.
+- Extended cross-language routing from path/name metadata to bounded lexical content discovery.
 - Added CamelCase-aware matching for identifiers such as GetAsync, InventoryIcons and EquipmentModels.
 - Separated subsystem/query concepts from source-content terms to reduce generic event-name false positives.
 - Added explicit counts for eligible files, ranked candidates, selected candidates, eligible-but-unranked files and ranked-but-unselected files.

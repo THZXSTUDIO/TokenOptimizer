@@ -190,7 +190,7 @@ foreach ($path in $neighborPaths) { if (-not $candidates.Contains($path)) { $can
 if ($candidates.Count -eq 0) { throw 'Plan contains no safe [seed] or [neighbor] paths.' }
 
 $report = New-Object 'System.Collections.Generic.List[string]'
-$report.Add('# TOKENOPTIMIZER UNIVERSAL 0.7.3 | COVERAGE-BALANCED SOURCE EXCERPTS')
+$report.Add('# TOKENOPTIMIZER 0.7.3 | COVERAGE-BALANCED SOURCE EXCERPTS')
 $report.Add('')
 $report.Add("Plan: $PlanPath")
 $unopenedCandidateCount = [Math]::Max(0,($candidates.Count - $MaxFiles))
@@ -463,5 +463,5 @@ if ($OutputPath) {
     [IO.File]::WriteAllText($outputFull,($report -join [Environment]::NewLine),(New-Object Text.UTF8Encoding($false)))
 }
 $timer.Stop()
-Write-Output ("TOKENOPTIMIZER SLICES UNIVERSAL 0.7.3 | candidates={0} opened={1} matched={2} lines={3} perFileBudget={4} time={5}ms" -f $candidates.Count,$opened,$matchedFiles,$totalLines,$perFileLineBudget,$timer.ElapsedMilliseconds)
+Write-Output ("TOKENOPTIMIZER SLICES 0.7.3 | candidates={0} opened={1} matched={2} lines={3} perFileBudget={4} time={5}ms" -f $candidates.Count,$opened,$matchedFiles,$totalLines,$perFileLineBudget,$timer.ElapsedMilliseconds)
 Write-Output ($report -join [Environment]::NewLine)

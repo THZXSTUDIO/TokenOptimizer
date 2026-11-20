@@ -1,4 +1,4 @@
-# TokenOptimizer UNIVERSAL
+# TokenOptimizer
 
 **Version:** 0.7.3  
 **Status:** Public preview  
@@ -94,6 +94,57 @@ Use the same arguments. Replace example terms with concepts and APIs actually re
 
 Call the PowerShell scripts directly with the call operator (`&`). Do not wrap them in RTK, `rtk run`, `rtk proxy`, nested PowerShell, or `-EncodedCommand`. The installed machine-level RTK instructions include a narrow exception for these scripts.
 
+## How it works - end to end
+
+TokenOptimizer is a preparation layer between a coding task and the agent's source-code investigation. It does not solve the task by itself. It builds a bounded, traceable evidence packet so Codex or Claude Code can focus its context on the files most likely to matter.
+
+### 1. Understand the task and build search signals
+
+The agent keeps the user's full request and turns it into two complementary signal groups:
+
+- **Query concepts:** names of the feature, subsystem, screens, services, modules, or behavior involved. These help identify relevant folders and filenames.
+- **Terms and symbols:** concrete identifiers such as functions, events, state fields, API names, and actions. These help find evidence inside source files. Exact symbols should only be supplied when known from project evidence; otherwise use grounded concepts and terms.
+
+For example, an inventory-persistence task might use `inventory`, `equipment`, and `consumables` as concepts, then `GetAsync`, `UpdateAsync`, `PlayerRemoving`, `Owned`, `Equipped`, and `OnServerEvent` as source terms. The agent must adapt these signals to the actual repository rather than copying examples blindly.
+
+### 2. Discover files within fixed safety limits
+
+The router validates the project root, walks eligible directories, and collects file/path metadata. It skips common dependency, build, cache, generated, backup, unsupported, oversized, and reparse-point paths. It then scans eligible source/config content under hard ceilings. Default ceilings are 100,000 filesystem entries, 20,000 directories, 8,000 content files, 1 MiB per file, 64 MiB aggregate content, and 20,000 lines per file.
+
+Content scanning lets the router find code stored in generically named files. Matching understands ordinary text and common identifier styles, including CamelCase, but it is lexical matching - not language parsing.
+
+### 3. Rank likely candidates
+
+Each candidate receives relevance signals from matched task concepts and source terms. The selection pass favors files that cover more requested concepts and avoids spending the entire candidate set in one directory when other directories provide distinct evidence. The goal is a useful spread of likely-relevant files, not a claim that every dependency has been discovered.
+
+The router reports stages separately: eligible files, content-scanned files, ranked candidates, selected candidates, and eligible files that were not ranked. A file can be eligible for scanning without being a strong match for the current query.
+
+### 4. Open candidates and choose evidence ranges
+
+The slicer reads safe, in-project paths from the router plan. It inspects candidates permitted by `MaxFiles` before distributing the final line budget. Within each file, it looks for distinct matching patterns and chooses relevance-weighted line ranges, adding configured context around each match. It reserves a small evidence floor across matched files before allocating remaining lines by relevance. This reduces the chance that one large or highly-scored file consumes the entire output.
+
+When requested by the task, priority patterns help surface important behavior such as data loading/saving, player lifecycle hooks, equip/unequip branches, loaded-state checks, ownership validation, cooldown/rate limiting, and save-protection flags. These are heuristics: a matching line is evidence to inspect, not proof that the whole flow is correct.
+
+### 5. Emit a bounded evidence packet and coverage report
+
+The output contains source excerpts with file paths and line ranges, together with counts for candidates opened and matched, lines emitted, clipping, truncation, and omissions. Default slicer limits are 24 files, 16 match groups per file, one context line, 60 lines per file, and 400 source lines total. Increasing limits may improve context but also increases reading and context cost.
+
+The agent should use excerpts as a map into the repository: verify decisive claims against actual source, follow important references when needed, run appropriate tests separately, and state what was not inspected. It must not describe the packet as complete project coverage when the report shows unranked files or a reached output budget.
+
+### 6. Keep project source unchanged
+
+The scripts do not execute project code, launch agents, run project tests, or edit source files. They write routing plans and generated context under the project's `TokenOptimizer` output directory. The coding agent remains responsible for reasoning, implementation, test execution, and final verification.
+
+### Example workflow
+
+1. User asks for a multi-module bug investigation.
+2. Agent extracts task-specific concepts and identifiers without dropping acceptance criteria.
+3. TokenOptimizer scans eligible project metadata and bounded source content.
+4. Router ranks likely-relevant files and records coverage counts.
+5. Slicer opens permitted candidates and emits a relevance-weighted, line-bounded evidence packet.
+6. Agent follows the evidence, checks additional source where necessary, makes changes only if requested, and runs normal verification.
+
+For a narrow task where the exact file is already known, skip TokenOptimizer and inspect that file directly. It is intended for multi-file uncertainty, not as an extra step for every question.
 ## Architecture
 
 ### Router

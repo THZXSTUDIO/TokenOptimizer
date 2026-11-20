@@ -1,4 +1,4 @@
-# Evaluation — TokenOptimizer UNIVERSAL 0.7
+# Evaluation — TokenOptimizer 0.7
 
 Date: 2026-11-20
 Implementation target: Windows PowerShell 5.1, Codex and Claude Code.

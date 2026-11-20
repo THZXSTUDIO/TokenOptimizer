@@ -18,7 +18,7 @@ The router uses Windows PowerShell/.NET functionality and Windows path behavior.
 
 ## Language and file-format recognition
 
-The universal router recognizes common code and configuration formats, including:
+The cross-language router recognizes common code and configuration formats, including:
 
 - Lua and Luau
 - Python

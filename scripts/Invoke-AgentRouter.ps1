@@ -295,7 +295,7 @@ New-Item -ItemType Directory -Path $outDir -Force | Out-Null
 $stamp = (Get-Date).ToString('yyyyMMdd-HHmmss-fff')
 $planPath = Join-Path $outDir "AgentPlan-0.7.3-$stamp.md"
 $report = New-Object 'System.Collections.Generic.List[string]'
-$report.Add('# TOKENOPTIMIZER UNIVERSAL 0.7.3 | COVERAGE-AWARE ROUTING PLAN')
+$report.Add('# TOKENOPTIMIZER 0.7.3 | COVERAGE-AWARE ROUTING PLAN')
 $report.Add('')
 $report.Add("Intent: $($terms -join ' + ')")
 $report.Add("Project root: $ProjectRoot")
@@ -323,5 +323,5 @@ $tempPath = "$planPath.tmp"
 Move-Item -LiteralPath $tempPath -Destination $planPath -Force
 $planWriteMs = $stageWatch.ElapsedMilliseconds
 $timer.Stop()
-Write-Output ("TOKENOPTIMIZER UNIVERSAL 0.7.3 | ranked={0} seeds={1} unselected={2} eligibleUnranked={3} scanned={4} dirs={5} eligible={6} contentFiles={7} sizeBudget={8} time={9}ms truncated={10} contentTruncated={11} stages=load:{12}/scan:{13}/rank:{14}/plan:{15}" -f $ordered.Count,$selected.Count,$unselectedCandidateCount,$eligibleUnrankedCount,$scan.ScannedFiles,$scan.ScannedDirectories,$scan.EligibleFiles,$scan.ContentScannedFiles,$scan.ContentBytes,$timer.ElapsedMilliseconds,$scan.Truncated,$scan.ContentTruncated,$assemblyLoadMs,$scanMs,$rankMs,$planWriteMs)
+Write-Output ("TOKENOPTIMIZER 0.7.3 | ranked={0} seeds={1} unselected={2} eligibleUnranked={3} scanned={4} dirs={5} eligible={6} contentFiles={7} sizeBudget={8} time={9}ms truncated={10} contentTruncated={11} stages=load:{12}/scan:{13}/rank:{14}/plan:{15}" -f $ordered.Count,$selected.Count,$unselectedCandidateCount,$eligibleUnrankedCount,$scan.ScannedFiles,$scan.ScannedDirectories,$scan.EligibleFiles,$scan.ContentScannedFiles,$scan.ContentBytes,$timer.ElapsedMilliseconds,$scan.Truncated,$scan.ContentTruncated,$assemblyLoadMs,$scanMs,$rankMs,$planWriteMs)
 Write-Output "PLAN=$planPath"

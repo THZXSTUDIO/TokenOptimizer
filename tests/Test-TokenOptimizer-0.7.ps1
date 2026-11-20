@@ -304,8 +304,8 @@ return armorModels, icons
     $entry = Join-Path $root 'scripts\Invoke-TokenOptimizer.ps1'
     $integrated = @(& $entry -Query 'AUTH LOGIN TOKEN VALIDATION' -ProjectRoot $project -Symbols 'LoginUser,Authenticate,ValidateToken,HandleToken' -MaxTotalLines 20)
     $integratedText = $integrated -join [Environment]::NewLine
-    Assert-Contains $integratedText 'TOKENOPTIMIZER UNIVERSAL 0.7.3 |' 'Unified entry runs the coverage-aware router.'
-    Assert-Contains $integratedText 'TOKENOPTIMIZER SLICES UNIVERSAL 0.7.3 |' 'Unified entry automatically runs the bounded slicer when symbols are supplied.'
+    Assert-Contains $integratedText 'TOKENOPTIMIZER 0.7.3 |' 'Unified entry runs the coverage-aware router.'
+    Assert-Contains $integratedText 'TOKENOPTIMIZER SLICES 0.7.3 |' 'Unified entry automatically runs the bounded slicer when symbols are supplied.'
     Pass 'Single-entry route plus optional evidence slicing'
 
     $after = @($ts,$cs,$py,$go,$genericDb,$remoteNoise,$visualCatalog | ForEach-Object { (Get-FileHash -LiteralPath $_ -Algorithm SHA256).Hash })

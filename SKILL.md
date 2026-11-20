@@ -1,9 +1,9 @@
 ---
 name: token-optimizer
-description: Universal multi-file coding task router and bounded, coverage-aware source extractor for Codex and Claude Code. Use for cross-file tasks without reducing the user's requested reasoning depth.
+description: Multi-file coding task router and bounded, coverage-aware source extractor for Codex and Claude Code. Use for cross-file tasks without reducing the user's requested reasoning depth.
 ---
 
-# TokenOptimizer UNIVERSAL 0.7.3
+# TokenOptimizer 0.7.3
 
 ## Use
 Use for multi-file, cross-module, architecture, dependency tracing, debugging, or unclear-scope tasks. Skip general questions and narrow one-file tasks with known paths.

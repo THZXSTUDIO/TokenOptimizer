@@ -1,0 +1,5 @@
+# Local output and temporary files
+TokenOptimizer/
+*.tmp
+*.log
+*.bak
